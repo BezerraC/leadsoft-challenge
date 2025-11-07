@@ -1,6 +1,6 @@
 <h1 align="center">Desafio Full Stack LeadSoft - Missão Marte</h1>
 <p align="center">
-  <img src="https://img.shields.io/badge/Status-Em Progresso-f0ad4e?style=for-the-badge" alt="Status: Em Progresso"/>
+  <img src="https://img.shields.io/badge/Status-Conclu%C3%ADdo-1458F5?style=for-the-badge" alt="Status: Concluído"/>
 </p>
 
 ---
