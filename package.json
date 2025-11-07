@@ -1,0 +1,17 @@
+{
+  "name": "leadsoft-challenge",
+  "version": "1.0.0",
+  "description": "Desafio Full Stack: Missão Marte LeadIA",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev:api": "npm run dev --workspace=apps/api",
+    "dev:web": "npm run dev --workspace=apps/web"
+  },
+  "devDependencies": {
+    "@types/node": "^24.10.0"
+  }
+}
