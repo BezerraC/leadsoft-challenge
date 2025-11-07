@@ -122,6 +122,38 @@ class RavenCandidateRepository {
       session.dispose();
     }
   }
+
+  async deleteById(candidateId) {
+    const store = getStore();
+    const session = store.openSession();
+    const documentId = 'candidates/' + candidateId;
+
+    try {
+      // Carrega o documento para saber o nome do anexo
+      const candidate = await session.load(documentId, Candidate);
+      if (!candidate) {
+        return;
+      }
+
+      // Marcar o anexo para exclusão, se ele existir
+      if (candidate.photoFileName) {
+        session.advanced.attachments.delete(documentId, candidate.photoFileName);
+      }
+
+      // Marcar o documento principal para exclusão
+      session.delete(documentId);
+
+      // Executar ambas as exclusões em uma única transação
+      await session.saveChanges();
+      console.log(`Documento e anexo de ${documentId} deletados.`);
+
+    } catch (error) {
+      console.error("Erro ao deletar candidato por ID:", error);
+      throw error;
+    } finally {
+      session.dispose();
+    }
+  }
 }
 
 module.exports = RavenCandidateRepository;
