@@ -22,8 +22,14 @@ class CandidateController {
         id: candidate.id,
       });
     } catch (error) {
-      if (error.message.includes("inválido")) {
-        return res.status(400).json({ error: error.message });
+      // Erros de unicidade
+      if (error.message.startsWith("ConflictError:")) {
+        return res.status(409).json({ error: error.message.replace("ConflictError: ", "") });
+      }
+      
+      // Erros de validação
+      if (error.message.startsWith("DomainError:")) {
+        return res.status(400).json({ error: error.message.replace("DomainError: ", "") });
       }
       next(error);
     }

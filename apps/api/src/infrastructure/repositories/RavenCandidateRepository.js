@@ -80,8 +80,8 @@ class RavenCandidateRepository {
   async findByEmail(email) {
     const session = getStore().openSession();
     try {
-      return await session.query({ collection: 'Candidates' })
-        .whereEquals('email', email)
+      return await session.query({ collection: 'Candidates', documentType: Candidate })
+        .whereEquals('email', email.toLowerCase())
         .firstOrNull();
     } finally {
       session.dispose();
@@ -89,10 +89,10 @@ class RavenCandidateRepository {
   }
 
   async findByCpf(cpf) {
-     const session = getStore().openSession();
+    const session = getStore().openSession();
     try {
-      return await session.query({ collection: 'Candidates' })
-        .whereEquals('cpf', cpf)
+      return await session.query({ collection: 'Candidates', documentType: Candidate })
+        .whereEquals('cpf', cpf.replace(/\D/g, '')) 
         .firstOrNull();
     } finally {
       session.dispose();

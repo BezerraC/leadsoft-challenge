@@ -1,4 +1,5 @@
 const crypto = require('crypto');
+const { cpf } = require('cpf-cnpj-validator');
 
 class Candidate {
   constructor(props = {}) {
@@ -15,7 +16,9 @@ class Candidate {
 
   validate() {
     if (!this.name || this.name.length < 3) throw new Error("DomainError: Nome inválido ou muito curto.");
-    if (!this.cpf || this.cpf.length !== 11) throw new Error("DomainError: CPF inválido (deve conter 11 dígitos numéricos).");
+    if (!this.cpf || !cpf.isValid(this.cpf)) {
+      throw new Error("DomainError: CPF inválido.");
+    }
     if (!this.email || !this.email.includes('@')) throw new Error("DomainError: Email inválido.");
     if (!this.birthDate || isNaN(this.birthDate.getTime())) throw new Error("DomainError: Data de nascimento inválida.");
     if (!this.photoFileName) throw new Error("DomainError: Nome do arquivo da foto é obrigatório.");
