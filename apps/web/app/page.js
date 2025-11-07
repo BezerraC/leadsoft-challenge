@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { CommentForm } from './components/CommentForm';
+import { CandidateCard } from "./components/CandidateCard";
 
 async function getCandidates() {
   try {
@@ -18,13 +18,13 @@ export default async function LandingPage() {
   const candidates = await getCandidates();
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-gray-900 to-black text-white">
-      {/* Hero Section (Landing Page) */}
-      <section className="py-20 px-4 text-center">
-        <h1 className="text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">
-         LeadSoft
+    <main className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-950 text-gray-200">
+      {/* Hero Section */}
+      <section className="py-24 px-4 text-center">
+        <h1 className="font-orbitron text-5xl md:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-600 p-3">
+          MISSÃO MARTE
         </h1>
-        <p className="mt-4 text-xl text-gray-300 max-w-2xl mx-auto">
+        <p className="font-roboto-mono text-lg text-blue-200 max-w-2xl mx-auto">
           Estamos procurando os melhores talentos para embarcar nessa jornada
           inovadora. Você tem o que é preciso para fazer parte da nossa
           tripulação?
@@ -32,67 +32,27 @@ export default async function LandingPage() {
         <div className="mt-8">
           <Link
             href="/register"
-            className="px-8 py-3 bg-purple-600 hover:bg-purple-700 rounded-full text-lg font-semibold transition-all"
+            className="font-orbitron uppercase tracking-wider px-8 py-3 bg-gradient-to-r from-blue-600 to-cyan-400 hover:from-cyan-400 hover:to-blue-600 rounded-full text-lg text-white transition-all duration-300 shadow-lg shadow-cyan-500/20"
           >
-            Publique Agora
+            Alistar-se na Tripulação
           </Link>
         </div>
       </section>
 
       {/* Gallery Section */}
-      <section className="py-16 px-4 max-w-7xl mx-auto">
-        <h2 className="text-3xl font-bold mb-8 text-center">
-          Nossa Galeria
+      <section className="pb-16 px-4 max-w-7xl mx-auto">
+        <h2 className="font-orbitron text-4xl font-bold mb-10 text-center text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-600">
+          | Painel de Candidatos
         </h2>
 
         {candidates.length === 0 ? (
-          <p className="text-center text-gray-500">
-            Ainda não há candidatos. Seja o primeiro!
+          <p className="font-roboto-mono text-center text-gray-500 font-mono">
+            // NENHUM SINAL DETECTADO... SEJA O PRIMEIRO!
           </p>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 items-start">
             {candidates.map((candidate) => (
-              <div key={candidate.id} className="bg-gray-800 rounded-xl shadow-lg flex flex-col overflow-hidden">
-                
-                {/* Imagem */}
-                <div className="aspect-square relative">
-                  <img 
-                    src={`http://localhost:3001/api/candidates/${candidate.id}/photo`} 
-                    alt={`Foto de ${candidate.name}`}
-                    className="object-cover w-full h-full"
-                    loading="lazy"
-                  />
-                </div>
-                
-                {/* Legenda */}
-                <div className="p-4">
-                  <h3 className="font-bold text-lg truncate">{candidate.name}</h3>
-                  <p className="text-gray-400 text-sm mt-2 italic">"{candidate.legend}"</p>
-                </div>
-
-                {/* Lista de Comentários */}
-                <div className="p-4 space-y-2 flex-1">
-                  <h4 className="text-sm font-semibold text-gray-300 mb-2">
-                    Comentários ({candidate.comments.length})
-                  </h4>
-                  {candidate.comments.length === 0 ? (
-                    <p className="text-xs text-gray-500 italic">Seja o primeiro a comentar!</p>
-                  ) : (
-                    <ul className="space-y-2 max-h-32 overflow-y-auto">
-                      {candidate.comments.map((comment, index) => (
-                        <li key={index} className="text-xs p-2 bg-gray-700 rounded-md">
-                          <strong className="text-purple-300">{comment.author}:</strong>
-                          <p className="text-gray-300">{comment.text}</p>
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                </div>
-
-                {/* Formulario para Comentários */}
-                <CommentForm candidateId={candidate.id} />
-                
-              </div>
+              <CandidateCard key={candidate.id} candidate={candidate} />
             ))}
           </div>
         )}
