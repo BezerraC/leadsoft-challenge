@@ -6,11 +6,18 @@ const verifyRecaptcha = async (req, res, next) => {
 
   try {
     const response = await axios.post(`https://www.google.com/recaptcha/api/siteverify?secret=${process.env.RECAPTCHA_SECRET}&response=${token}`);
-    if (!response.data.success || response.data.score < 0.5) {
-       return res.status(403).json({ error: 'Bot detected' });
+    
+    if (!response.data.success) {
+       return res.status(403).json({ error: 'Recaptcha verification failed', details: response.data['error-codes'] });
+    }
+    
+    if (response.data.score < 0.5) {
+       return res.status(403).json({ error: 'Bot detected (low score)', score: response.data.score });
     }
     next();
   } catch (error) {
-    return res.status(500).json({ error: 'Recaptcha verification failed' });
+    return res.status(500).json({ error: 'Recaptcha server error' });
   }
 };
+
+module.exports = { verifyRecaptcha };
