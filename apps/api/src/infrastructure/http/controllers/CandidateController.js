@@ -1,5 +1,6 @@
 const RavenCandidateRepository = require("../../repositories/RavenCandidateRepository");
 const RegisterCandidate = require("../../../application/use-cases/RegisterCandidate");
+const crypto = require('crypto');
 
 class CandidateController {
   constructor() {
@@ -101,6 +102,7 @@ class CandidateController {
       }
 
       const newComment = {
+        id: crypto.randomUUID(),
         author,
         text,
         createdAt: new Date()
