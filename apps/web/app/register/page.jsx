@@ -1,10 +1,13 @@
 "use client";
 
 import { useState } from "react";
+import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
+import { cpf } from 'cpf-cnpj-validator';
 
 export default function RegisterPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState("");
+  const { executeRecaptcha } = useGoogleReCaptcha();
 
   // Função para validar a imagem
   const validateImageDimensions = (file) => {
@@ -34,8 +37,22 @@ export default function RegisterPage() {
     const form = event.target;
     const formData = new FormData(form);
 
+    if (!executeRecaptcha) {
+      setError("Serviço de reCAPTCHA ainda carregando. Tente novamente em um segundo.");
+      return;
+    }
+
     try {
+      // Pega o valor do CPF
+      const cpfValue = formData.get("cpf");
+      
+      // Valida o formato do CPF
+      if (!cpf.isValid(cpfValue)) {
+        throw new Error("O CPF digitado é inválido. Verifique os números.");
+      }
+
       const photoFile = formData.get("photo");
+      const token = await executeRecaptcha("adminLogin"); 
       
       try {
         await validateImageDimensions(photoFile);
@@ -48,6 +65,9 @@ export default function RegisterPage() {
       const response = await fetch("http://localhost:3001/api/candidates", {
         method: "POST",
         body: formData,
+         headers: {
+          "x-recaptcha-token": token,
+        },
       });
 
       const data = await response.json();
