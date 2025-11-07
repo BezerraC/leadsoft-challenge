@@ -6,6 +6,7 @@ import { cpf as cpfValidator } from "cpf-cnpj-validator";
 import NextImage from "next/image";
 import { useRouter } from "next/navigation";
 import { FormInput } from "../components/FormInput";
+import { Button } from "../components/Button";
 
 export default function RegisterPage() {
   const [isLoading, setIsLoading] = useState(false);
@@ -177,7 +178,7 @@ export default function RegisterPage() {
               />
 
               {/* Data de Nascimento */}
-               <FormInput
+              <FormInput
                 label="Data de Nascimento"
                 name="birthDate"
                 type="date"
@@ -206,17 +207,14 @@ export default function RegisterPage() {
 
             {/* Botão de Envio */}
             <div>
-              <button
-                type="submit"
-                disabled={isLoading}
-                className={`group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm rounded-full text-white ${
-                  isLoading
-                    ? "bg-gray-600"
-                    : "bg-gradient-to-r from-[#1458F5] to-[#10D9E8] hover:from-[#10D9E8] hover:to-[#1458F5]"
-                } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#10D9E8] focus:ring-offset-gray-900 transition-all duration-300 font-orbitron uppercase tracking-wider`}
+              <Button
+                variant="primary"
+                isLoading={isLoading}
+                loadingText="Processando..."
+                className="w-full group relative"
               >
-                {isLoading ? "Processando..." : "Enviar Candidatura"}
-              </button>
+                Enviar Candidatura
+              </Button>
             </div>
 
             {/* Mensagens de Status */}

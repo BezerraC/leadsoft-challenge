@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { FormInput } from "./FormInput";
+import { Button } from "./Button";
 
 export function CommentForm({ candidateId }) {
   const [author, setAuthor] = useState(() => {
@@ -74,14 +75,13 @@ export function CommentForm({ candidateId }) {
         rows={2}
         labelClassName="sr-only"
       />
-      <button
-        type="submit"
-        className="w-full px-4 py-2 bg-gradient-to-r from-blue-600 to-cyan-400
-                   hover:from-cyan-400 hover:to-blue-600 rounded-md
-                   text-sm font-bold text-white font-orbitron uppercase tracking-wider transition-all duration-300"
+
+      <Button
+        variant="secondary"
+        className="w-full"
       >
         Enviar
-      </button>
+      </Button>
       {error && <p className="text-red-400 text-xs font-roboto-mono">{error}</p>}
     </form>
   );
