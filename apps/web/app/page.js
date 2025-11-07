@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { CommentForm } from './components/CommentForm';
 
 async function getCandidates() {
   try {
@@ -51,26 +52,46 @@ export default async function LandingPage() {
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
             {candidates.map((candidate) => (
-              <div
-                key={candidate.id}
-                className="bg-gray-800 rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300"
-              >
+              <div key={candidate.id} className="bg-gray-800 rounded-xl shadow-lg flex flex-col overflow-hidden">
+                
+                {/* Imagem */}
                 <div className="aspect-square relative">
                   <img 
-                      src={`http://localhost:3001/api/candidates/${candidate.id}/photo`} 
-                      alt={`Foto de ${candidate.name}`}
-                      className="object-cover w-full h-full"
-                      loading="lazy"
-                    />
+                    src={`http://localhost:3001/api/candidates/${candidate.id}/photo`} 
+                    alt={`Foto de ${candidate.name}`}
+                    className="object-cover w-full h-full"
+                    loading="lazy"
+                  />
                 </div>
+                
+                {/* Legenda */}
                 <div className="p-4">
-                  <h3 className="font-bold text-lg truncate">
-                    {candidate.name}
-                  </h3>
-                  <p className="text-gray-400 text-sm mt-2 italic">
-                    "{candidate.legend}"
-                  </p>
+                  <h3 className="font-bold text-lg truncate">{candidate.name}</h3>
+                  <p className="text-gray-400 text-sm mt-2 italic">"{candidate.legend}"</p>
                 </div>
+
+                {/* Lista de Comentários */}
+                <div className="p-4 space-y-2 flex-1">
+                  <h4 className="text-sm font-semibold text-gray-300 mb-2">
+                    Comentários ({candidate.comments.length})
+                  </h4>
+                  {candidate.comments.length === 0 ? (
+                    <p className="text-xs text-gray-500 italic">Seja o primeiro a comentar!</p>
+                  ) : (
+                    <ul className="space-y-2 max-h-32 overflow-y-auto">
+                      {candidate.comments.map((comment, index) => (
+                        <li key={index} className="text-xs p-2 bg-gray-700 rounded-md">
+                          <strong className="text-purple-300">{comment.author}:</strong>
+                          <p className="text-gray-300">{comment.text}</p>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+
+                {/* Formulario para Comentários */}
+                <CommentForm candidateId={candidate.id} />
+                
               </div>
             ))}
           </div>
