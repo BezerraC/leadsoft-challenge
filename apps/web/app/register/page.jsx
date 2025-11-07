@@ -5,6 +5,7 @@ import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 import { cpf as cpfValidator } from "cpf-cnpj-validator";
 import NextImage from "next/image";
 import { useRouter } from "next/navigation";
+import { FormInput } from "../components/FormInput";
 
 export default function RegisterPage() {
   const [isLoading, setIsLoading] = useState(false);
@@ -146,90 +147,61 @@ export default function RegisterPage() {
           <form className="space-y-5" onSubmit={handleSubmit}>
             <div className="space-y-4">
               {/* Nome Completo */}
-              <div>
-                <label className="block text-sm font-medium text-blue-200 font-roboto">
-                  Nome de Tripulante
-                </label>
-                <input
-                  name="name"
-                  type="text"
-                  required
-                  className="mt-1 appearance-none relative block w-full px-3 py-2 bg-gray-800 border border-gray-700 placeholder-gray-500 text-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-[#10D9E8] focus:border-[#10D9E8] sm:text-sm font-roboto-mono"
-                  placeholder="Seu Nome"
-                />
-              </div>
+              <FormInput
+                label="Nome de Tripulante"
+                name="name"
+                type="text"
+                placeholder="Seu Nome"
+                required
+              />
 
               {/* Email */}
-              <div>
-                <label className="block text-sm font-medium text-blue-200 font-roboto">
-                  E-mail
-                </label>
-                <input
-                  name="email"
-                  type="email"
-                  required
-                  className="mt-1 appearance-none relative block w-full px-3 py-2 bg-gray-800 border border-gray-700 placeholder-gray-500 text-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-[#10D9E8] focus:border-[#10D9E8] sm:text-sm font-roboto-mono"
-                  placeholder="voce@dominio.com"
-                />
-              </div>
+              <FormInput
+                label="E-mail"
+                name="email"
+                type="email"
+                placeholder="voce@dominio.com"
+                required
+              />
 
               {/* CPF */}
-              <div>
-                <label className="block text-sm font-medium text-blue-200 font-roboto">
-                  Identificação (CPF)
-                </label>
-                <input
-                  name="cpf"
-                  type="text"
-                  required
-                  className="mt-1 appearance-none relative block w-full px-3 py-2 bg-gray-800 border border-gray-700 placeholder-gray-500 text-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-[#10D9E8] focus:border-[#10D9E8] sm:text-sm font-roboto-mono"
-                  placeholder="000.000.000-00"
-                  value={cpf}
-                  onChange={handleCpfChange}
-                  maxLength={14}
-                />
-              </div>
+              <FormInput
+                label="Identificação (CPF)"
+                name="cpf"
+                type="text"
+                placeholder="000.000.000-00"
+                value={cpf}
+                onChange={handleCpfChange}
+                maxLength={14}
+                required
+              />
 
               {/* Data de Nascimento */}
-              <div>
-                <label className="block text-sm font-medium text-blue-200 font-roboto">
-                  Data de Nascimento
-                </label>
-                <input
-                  name="birthDate"
-                  type="date"
-                  required
-                  className="mt-1 appearance-none relative block w-full px-3 py-2 bg-gray-800 border border-gray-700 placeholder-gray-500 text-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-[#10D9E8] focus:border-[#10D9E8] sm:text-sm font-roboto-mono"
-                />
-              </div>
+               <FormInput
+                label="Data de Nascimento"
+                name="birthDate"
+                type="date"
+                required
+              />
 
               {/* Legenda */}
-              <div>
-                <label className="block text-sm font-medium text-blue-200 font-roboto">
-                  Legenda Criativa
-                </label>
-                <textarea
-                  name="legend"
-                  rows={2}
-                  required
-                  className="mt-1 appearance-none relative block w-full px-3 py-2 bg-gray-800 border border-gray-700 placeholder-gray-500 text-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-[#10D9E8] focus:border-[#10D9E8] sm:text-sm font-roboto-mono"
-                  placeholder="Por que você deve ir a Marte?"
-                />
-              </div>
+              <FormInput
+                label="Legenda Criativa (Sua Frase de Efeito)"
+                as="textarea"
+                name="legend"
+                rows={2}
+                placeholder="Por que você deve ir a Marte?"
+                required
+              />
 
               {/* Foto 1080x1080 */}
-              <div>
-                <label className="block text-sm font-medium text-blue-200 font-roboto">
-                  Foto de Perfil (Traje Espacial - 1080x1080)
-                </label>
-                <input
-                  name="photo"
-                  type="file"
-                  accept="image/png, image/jpeg"
-                  required
-                  className="mt-1 block w-full text-sm text-gray-400 font-roboto-mono file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-900 file:text-cyan-300 hover:file:bg-blue-800 transition-colors"
-                />
-              </div>
+              <FormInput
+                label="Foto de Perfil (Traje Espacial - 1080x1080)"
+                name="photo"
+                type="file"
+                accept="image/png, image/jpeg"
+                required
+              />
             </div>
 
             {/* Botão de Envio */}

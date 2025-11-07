@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { FormInput } from "./FormInput";
 
 export function CommentForm({ candidateId }) {
   const [author, setAuthor] = useState(() => {
@@ -56,21 +57,22 @@ export function CommentForm({ candidateId }) {
       <h4 className="text-sm font-semibold text-gray-300 font-roboto-mono">
         Deixar um comentário
       </h4>
-      <input
+      <FormInput
+        label="Seu nome"
         type="text"
         value={author}
         onChange={(e) => setAuthor(e.target.value)}
         placeholder="Seu nome"
-        className="w-full p-2 rounded-md bg-gray-800 text-gray-200 border border-gray-700 text-sm font-roboto-mono
-                   focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-cyan-400"
+        labelClassName="sr-only" 
       />
-      <textarea
+      <FormInput
+        label="Sua mensagem"
+        as="textarea"
         value={text}
         onChange={(e) => setText(e.target.value)}
         placeholder="Sua mensagem..."
         rows={2}
-        className="w-full p-2 rounded-md bg-gray-800 text-gray-200 border border-gray-700 text-sm font-roboto-mono
-                   focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-cyan-400"
+        labelClassName="sr-only"
       />
       <button
         type="submit"
