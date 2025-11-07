@@ -71,9 +71,46 @@ class CandidateController {
         id: c.id ? c.id.split('/')[1] : null,
         name: c.name,
         legend: c.legend,
+        comments: c.comments || [],
       }));
 
       return res.json(publicData);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async addComment(req, res, next) {
+    try {
+      const { id } = req.params;
+      const { author, text } = req.body;
+
+      if (!author || !text) {
+        return res.status(400).json({ error: 'Autor e texto são obrigatórios.' });
+      }
+
+      // Busca o candidato
+      const candidate = await this.repository.findById(id);
+      if (!candidate) {
+        return res.status(404).json({ error: 'Candidato não encontrado.' });
+      }
+
+      // Adiciona o novo comentário
+      if (!candidate.comments) {
+        candidate.comments = [];
+      }
+
+      const newComment = {
+        author,
+        text,
+        createdAt: new Date()
+      };
+      candidate.comments.push(newComment);
+
+      // Salva (atualiza) o documento
+      await this.repository.update(candidate);
+
+      return res.status(201).json(newComment);
     } catch (error) {
       next(error);
     }
